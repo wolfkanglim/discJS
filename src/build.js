@@ -36,6 +36,8 @@ function makepad(key,parent){
   pad.appendChild(pad.filename);
   pad.addEventListener('click',activate);
   parent.appendChild(pad);
+  let paddata=PadData.deserialize(key);
+  if(paddata) selectfile(false,paddata);
 }
 
 function build(){

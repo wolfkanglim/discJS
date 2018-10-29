@@ -30,15 +30,16 @@ function tick(e=false){//runs each time shortest loop is over
     setTimeout(tick,100);
     return true;
   }
-  if(e&&active.length>1&&audio.keys().length>1){ //determine if we're the base, quit otherwise
+  if(e&&active.length>1){ //determine if we're the base, quit otherwise
     let base=e.target.duration;
     for(let pad of active){
-      if(audio.get(pad.key)&&audio.get(pad.key).ended) continue;
+      let a=audio.get(pad.key);
+      if(!a||a.ended) continue;
       let duration=durations.get(pad.key);
       if(duration<base) base=duration;
     }
     if(e.target.duration!=base) {
-      console.log('not base');
+      setTimeout(tick,100);
       return false;
     }
   }
@@ -48,7 +49,7 @@ function tick(e=false){//runs each time shortest loop is over
   for(let pad of active){ //start a new loop
     let current=audio.get(pad.key);
     if(current&&!current.ended) continue;
-    let a=new Audio(pad.url);
+    let a=new Audio(data.get(pad.key).dataurl);
     let track = CONTEXT.createMediaElementSource(a);
     track.connect(CONTEXT.destination);
     a.play();

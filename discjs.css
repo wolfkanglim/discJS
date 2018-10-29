@@ -35,9 +35,8 @@ body{
   height: 100%;
   margin: 0;
 }
-#controls>*{margin-left:1em;}
-a#play{
+#controls a{
   font-size:5em;
-  margin:auto;
+  margin:.5em;
   cursor:pointer;
 }
