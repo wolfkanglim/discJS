@@ -9,11 +9,15 @@ class PadData{
   }
   
   serialize(){
-    localStorage.setItem(this.key+'name',this.name);
-    localStorage.setItem(this.key+'dataurl',this.dataurl);
-    localStorage.setItem(this.key+'active',this.active);
-    localStorage.setItem(this.key+'volume',this.volume);
-    localStorage.setItem(this.key+'speed',this.speed);
+    try{
+      localStorage.setItem(this.key+'name',this.name);
+      localStorage.setItem(this.key+'dataurl',this.dataurl);
+      localStorage.setItem(this.key+'active',this.active);
+      localStorage.setItem(this.key+'volume',this.volume);
+      localStorage.setItem(this.key+'speed',this.speed);
+    }catch(e){
+      console.warn(e);
+    }
   }
   
   setactive(active){
@@ -85,13 +89,18 @@ function activate(e,force=undefined){
 }
 
 function presskey(e){
-  if(e.altKey||e.ctrlKey) return;
+  e.preventDefault();
+  if(e.ctrlKey||e.altKey) return;
   if(e.key==' '){
     play();
     return;
   }
-  let pad=pads.get(e.key);
-  if(pad) activate(pad);
+  let key=e.key;
+  if(e.shiftKey) key=key.toLowerCase();
+  let pad=pads.get(key);
+  if(!pad||!data.get(key)) return;
+  if(e.shiftKey) playloop(pad);
+  else activate(pad);
 }
 
 function reset(){

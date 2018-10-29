@@ -59,7 +59,7 @@ function playloop(pad){ //start a new loop
   a.volume=paddata.volume;
   a.playbackRate=paddata.speed;
   a.play();
-  a.addEventListener('ended',tick);
+  if(playing) a.addEventListener('ended',tick);
   audio.set(pad.key,a);
   pad.classList.add('pulse');
   setTimeout(function(){pad.classList.remove('pulse');},250);
