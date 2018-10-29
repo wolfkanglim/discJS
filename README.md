@@ -10,9 +10,9 @@ Unlike other launchpad emulators, samples don't play instantly but are scheduled
 
 # Instructions
 
-Open the HTML file in a browser. Select samples manually before (or during) play. Activate/deactive tracks by using their shortcut keys or clicking on individual pads. The spacebar starts and stops play.
+Open [this link](https://tukkek.github.io/discJS/) or a local copy of the HTML file in a browser. Select samples manually before (or during) play. Activate/deactive tracks by using their shortcut keys or clicking on individual pads. The spacebar starts and stops play.
 
-The package comes with a few sample samples that are basic but should be enough to get a feel for discJS. Note that to access these files you need to download discJS locally as a ZIP file - everything else works fine running from the web.
+The package comes with a few sample samples (🙃) that are basic but should be enough to get a feel for discJS. Note that to access these files you need to download discJS locally as a ZIP file - everything else works fine running from the web.
 
 # Known issues
 
