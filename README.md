@@ -1,6 +1,6 @@
 # Status
 
-Early but working prototype. Up-to-date Chrome seems to provide the best audio experience.
+Early but functional prototype. Up-to-date Chrome seems to provide the best audio experience.
 
 # What is discJS?
 
@@ -22,12 +22,12 @@ The package comes with a few sample samples that are basic but should be enough 
 
 * Import and export layout setups
 * Produce a more respectable set of packaged samples
-* "Pulse" visual feedback when a sample starts looping
+    * Load a full song layout by default, have a "reset" button to start fresh
 * Allow color-coded categories that automatically disable pads of the same color when activated
- * Might require a Pad rewite for WebComponents
- * Classic Mac palette looks good and expressive https://en.wikipedia.org/wiki/List_of_software_palettes#Apple_Macintosh_default_16-color_palette
+    * Might require a Pad rewrite into WebComponents (and new color chooser component)
+    * Classic Mac palette looks good and expressive https://en.wikipedia.org/wiki/List_of_software_palettes#Apple_Macintosh_default_16-color_palette
 * Panels using the space below:
- * Links to GitHub/readme, perhaps a logo as well
- * Waveform drawing
-  * https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
-  * https://www.michaelbromley.co.uk/blog/audio-visualization-with-web-audio-canvas-and-the-soundcloud-api/
+    * Links to GitHub/readme, perhaps a logo as well
+    * Waveform drawing
+        * https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API
+        * https://www.michaelbromley.co.uk/blog/audio-visualization-with-web-audio-canvas-and-the-soundcloud-api/
