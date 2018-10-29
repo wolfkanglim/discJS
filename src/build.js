@@ -22,6 +22,16 @@ function makepad(key,parent){
   pad.filelabel.innerHTML='🔊';
   pad.filelabel.title='Select audio file';
   pad.controls.appendChild(pad.filelabel);
+  pad.volume=document.createElement('a');
+  pad.volume.innerHTML='☊';
+  pad.volume.title='Adjust volume';
+  pad.volume.addEventListener('click',openvolume);
+  pad.controls.appendChild(pad.volume);
+  pad.bpm=document.createElement('a');
+  pad.bpm.innerHTML='⚡';
+  pad.bpm.title='Adjust speed';
+  pad.bpm.addEventListener('click',openspeed);
+  pad.controls.appendChild(pad.bpm);
   pad.file=document.createElement('input');
   pad.file.type='file';
   pad.file.addEventListener('change',selectfile);

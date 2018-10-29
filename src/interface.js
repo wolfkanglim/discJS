@@ -1,16 +1,19 @@
 class PadData{
-  constructor(key,name,dataurl,active=undefined){
+  constructor(key,name,dataurl,active=undefined,volume=1,speed=1){
     this.key=key;
     this.name=name;
     this.dataurl=dataurl;
     this.active=active===undefined?!playing:active;
-    console.log(this.active);
+    this.volume=volume;
+    this.speed=speed;
   }
   
   serialize(){
     localStorage.setItem(this.key+'name',this.name);
     localStorage.setItem(this.key+'dataurl',this.dataurl);
     localStorage.setItem(this.key+'active',this.active);
+    localStorage.setItem(this.key+'volume',this.volume);
+    localStorage.setItem(this.key+'speed',this.speed);
   }
   
   setactive(active){
@@ -24,7 +27,9 @@ class PadData{
     if(!name) return false;
     let dataurl=localStorage.getItem(key+'dataurl');
     let active=localStorage.getItem(key+'active')=='true';
-    return new PadData(key,name,dataurl,active);
+    let volume=Number(localStorage.getItem(key+'volume'));
+    let speed=Number(localStorage.getItem(key+'speed'));
+    return new PadData(key,name,dataurl,active,volume,speed);
   }
 }
 
@@ -44,7 +49,7 @@ function selectfile(event,paddata=false){
   if(!file) return;
   let reader=new FileReader();
   reader.addEventListener("load", function (){
-    let name=file.name.substring(0,file.name.indexOf('.')-1);
+    let name=file.name.substring(0,file.name.indexOf('.'));
     let paddata=new PadData(pad.key,name,reader.result);
     paddata.serialize();
     loadfile(paddata);

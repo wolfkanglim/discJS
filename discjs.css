@@ -22,12 +22,14 @@
   opacity:0;
 }
 #launchpad div.pad>*{margin-bottom:.5em;}
-#launchpad div.pad label{
+#launchpad div.pad input{display:none;}
+#launchpad div.pad div.controlpad>*{
+  margin:.25em;
+  font-weight:bolder;
+  font-family:fixed;
   cursor:pointer;
   font-size:1.5em;
 }
-#launchpad div.pad input{display:none;}
-#launchpad div.pad div.controlpad>*{margin:.25em;}
 #launchpad{padding:2em;}
 body{
   background-image: linear-gradient(to bottom,darkred,darkred,black);

@@ -46,17 +46,21 @@ function tick(e=false){//runs each time shortest loop is over
   for(let key of audio.keys()){ //stop deactived midway
     if(active.indexOf(pads.get(key))<0) pause(key);
   }
-  for(let pad of active){ //start a new loop
-    let current=audio.get(pad.key);
-    if(current&&!current.ended) continue;
-    let a=new Audio(data.get(pad.key).dataurl);
-    let track = CONTEXT.createMediaElementSource(a);
-    track.connect(CONTEXT.destination);
-    a.play();
-    a.addEventListener('ended',tick);
-    audio.set(pad.key,a);
-    pad.classList.add('pulse');
-    setTimeout(function(){pad.classList.remove('pulse');},250);
-  }
+  for(let pad of active) playloop(pad);
   return true;
+}
+
+function playloop(pad){ //start a new loop
+  let current=audio.get(pad.key);
+  if(current&&!current.ended) return;
+  let paddata=data.get(pad.key);
+  let a=new Audio(paddata.dataurl);
+  CONTEXT.createMediaElementSource(a).connect(CONTEXT.destination);
+  a.volume=paddata.volume;
+  a.playbackRate=paddata.speed;
+  a.play();
+  a.addEventListener('ended',tick);
+  audio.set(pad.key,a);
+  pad.classList.add('pulse');
+  setTimeout(function(){pad.classList.remove('pulse');},250);
 }
