@@ -28,10 +28,12 @@
 }
 #launchpad div.pad input{display:none;}
 #launchpad div.pad div.controlpad>*{margin:.25em;}
-#launchpad{margin-bottom:2em;}
+#launchpad{padding:2em;}
 body{
   background-image: linear-gradient(to bottom,darkred,darkred,black);
   text-align:center;
+  height: 100%;
+  margin: 0;
 }
 #controls>*{margin-left:1em;}
 a#play{
