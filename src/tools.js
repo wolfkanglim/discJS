@@ -18,6 +18,7 @@ function opentool(value,label,min,max,step,e,onchange){
   input.value=value;
   updatetoolvalue(e);
   input.addEventListener('change',callback);
+  input.focus();
 }
 
 function updatetooldata(e){

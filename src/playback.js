@@ -1,7 +1,7 @@
 const CONTEXT = new AudioContext();
 
 var audio=new Map();
-var durations=new Map();
+var durations=new Map(); //TODO move this info to datapad (#data)
 var playing=false;
 
 function pause(key){
@@ -31,16 +31,14 @@ function tick(e=false){//runs each time shortest loop is over
     return true;
   }
   if(e&&active.length>1){ //determine if we're the base, quit otherwise
-    let base=e.target.duration;
+    let duration=e.target.duration/e.target.playbackRate;
     for(let pad of active){
       let a=audio.get(pad.key);
-      if(!a||a.ended) continue;
-      let duration=durations.get(pad.key);
-      if(duration<base) base=duration;
-    }
-    if(e.target.duration!=base) {
-      setTimeout(tick,100);
-      return false;
+      if(a&&a.ended) continue;
+      if(duration>durations.get(pad.key)/data.get(pad.key).speed){
+        if(!a||a.ended) tick();
+        return false;
+      }
     }
   }
   for(let key of audio.keys()){ //stop deactived midway
