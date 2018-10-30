@@ -2,6 +2,8 @@ const CONTEXT = new AudioContext();
 
 var audio=new Map();
 var playing=false;
+var recorder=false;
+var recordingstream=false;
 
 function pause(key){
   audio.get(key).pause();
@@ -15,10 +17,11 @@ function play(){
     clearInterval(playing);
     play.innerHTML='▶';
     playing=false;
+    if(recorder) stoprecording();
   }else{
     playing=true;
     playing=tick();
-    if(playing) play.innerHTML='▮▮';
+    if(!playing) play.innerHTML='▮▮';
   }
 }
 
@@ -41,6 +44,7 @@ function tick(e=false){//runs each time shortest loop is over
       }
     }
   }
+  if(!recorder) startrecording();
   for(let key of audio.keys()){ //stop deactived midway
     if(active.indexOf(pads.get(key))<0) pause(key);
   }
@@ -48,12 +52,31 @@ function tick(e=false){//runs each time shortest loop is over
   return true;
 }
 
+function startrecording(){
+  //console.log(CONTEXT.destination);
+  recordingstream=CONTEXT.createMediaStreamDestination();
+  recorder=new MediaRecorder(recordingstream.stream);
+  recorder.start();
+}
+
+function stoprecording(){
+  recorder.addEventListener('dataavailable',function(e){
+    //console.log(e.data);
+    document.querySelector('#recording').src=URL.createObjectURL(e.data);
+    recorder=false;
+    recordingstream=false;
+  });
+  recorder.stop();
+}
+
 function playloop(pad){ //start a new loop
   let current=audio.get(pad.key);
   if(current&&!current.ended) return;
   let paddata=data.get(pad.key);
   let a=new Audio(paddata.dataurl);
-  CONTEXT.createMediaElementSource(a).connect(CONTEXT.destination);
+  let mediasource=CONTEXT.createMediaElementSource(a);
+  mediasource.connect(CONTEXT.destination);
+  if(recordingstream) mediasource.connect(recordingstream);
   a.volume=paddata.volume;
   a.playbackRate=paddata.speed;
   a.play();

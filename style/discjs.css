@@ -42,3 +42,6 @@ body{
   margin:.5em;
   cursor:pointer;
 }
+audio#recording{
+  margin-top:2em;
+}
