@@ -58,7 +58,7 @@ function changevolume(e){
 
 function openvolume(e){
   if(!updatetooldata(e)) return;
-  opentool(paddata.volume,'Select volume:',0,1,.01,e,changevolume);
+  opentool(paddata.volume,'Select volume',0,1,.01,e,changevolume);
 }
 
 function changespeed(e){
@@ -69,7 +69,7 @@ function changespeed(e){
 
 function openspeed(e){
   if(!updatetooldata(e)) return;
-  opentool(paddata.speed,'Select playback speed:',0.25,5,.01,e,changespeed);
+  opentool(paddata.speed,'Select playback speed',0.25,5,.005,e,changespeed);
 }
 
 document.addEventListener('keypress',function(e){

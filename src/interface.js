@@ -25,7 +25,7 @@ function loadfile(paddata){
   let a=new Audio(paddata.dataurl);
   a.addEventListener('loadeddata',function(e){
     let key=paddata.key;
-    paddata.duration.duration=e.target.duration;
+    paddata.duration=e.target.duration;
     paddata.serialize();
     data.set(key,paddata);
     let pad=pads.get(key);

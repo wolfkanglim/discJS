@@ -2,7 +2,7 @@
   width:30em;
   height:10em;
   border-radius: 2em;
-  border:.25em grey solid;
+  border:.1em darkred solid;
   background-color:white;
   position:absolute; /*it can be fixed too*/
   left:0;
@@ -16,14 +16,21 @@
   overflow:auto;
   z-index:2;
   display:none;
-  background-image: linear-gradient(to bottom left,lightblue,khaki);
+  background-image: linear-gradient(to bottom left,khaki,lightblue);
 }
 #toolinput{
   width:20em;
-  margin:2em 0;
+  margin:1em 0;
   background-color:black;
 }
-#toollabel{margin-top:1em;}
+#toollabel{
+  margin-top:1em;
+  text-decoration:underline;
+}
+.hint{
+  font-size:small;
+  margin-bottom:1em;
+}
 
 /* from http://danielstern.ca/range.css/ */
 input[type=range] {
