@@ -1,7 +1,6 @@
 const CONTEXT = new AudioContext();
 
 var audio=new Map();
-var durations=new Map(); //TODO move this info to datapad (#data)
 var playing=false;
 
 function pause(key){
@@ -35,7 +34,8 @@ function tick(e=false){//runs each time shortest loop is over
     for(let pad of active){
       let a=audio.get(pad.key);
       if(a&&a.ended) continue;
-      if(duration>durations.get(pad.key)/data.get(pad.key).speed){
+      let paddata=data.get(pad.key);
+      if(duration>paddata.duration/paddata.speed){
         if(!a||a.ended) tick();
         return false;
       }

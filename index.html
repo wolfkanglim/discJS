@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="discjs.css">
     <link rel="stylesheet" type="text/css" href="tool.css">
+     <script src="src/data.js"></script> 
      <script src="src/build.js"></script> 
      <script src="src/interface.js"></script> 
      <script src="src/playback.js"></script> 
@@ -21,8 +22,8 @@
       <div id='toolvalue'></div>
       <div><input type='range' id='toolinput' onchange='updatetoolvalue(this);'></div>
       <div id='toolactions'>
-        <button onclick='closetool(this);'>Close</button>
         <button onclick='resettool(this);'>Reset</button>
+        <button onclick='closetool(this);'>Close</button>
       </div>
     </div>
   </body>

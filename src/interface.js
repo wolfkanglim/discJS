@@ -1,42 +1,3 @@
-class PadData{
-  constructor(key,name,dataurl,active=undefined,volume=1,speed=1){
-    this.key=key;
-    this.name=name;
-    this.dataurl=dataurl;
-    this.active=active===undefined?!playing:active;
-    this.volume=volume;
-    this.speed=speed;
-  }
-  
-  serialize(){
-    try{
-      localStorage.setItem(this.key+'name',this.name);
-      localStorage.setItem(this.key+'dataurl',this.dataurl);
-      localStorage.setItem(this.key+'active',this.active);
-      localStorage.setItem(this.key+'volume',this.volume);
-      localStorage.setItem(this.key+'speed',this.speed);
-    }catch(e){
-      console.warn(e);
-    }
-  }
-  
-  setactive(active){
-    if(active==this.active) return;
-    this.active=active;
-    localStorage.setItem(this.key+'active',this.active);
-  }
-  
-  static deserialize(key){
-    let name=localStorage.getItem(key+'name');
-    if(!name) return false;
-    let dataurl=localStorage.getItem(key+'dataurl');
-    let active=localStorage.getItem(key+'active')=='true';
-    let volume=Number(localStorage.getItem(key+'volume'));
-    let speed=Number(localStorage.getItem(key+'speed'));
-    return new PadData(key,name,dataurl,active,volume,speed);
-  }
-}
-
 var pads=new Map();
 var data=new Map();
 
@@ -55,7 +16,6 @@ function selectfile(event,paddata=false){
   reader.addEventListener("load", function (){
     let name=file.name.substring(0,file.name.indexOf('.'));
     let paddata=new PadData(pad.key,name,reader.result);
-    paddata.serialize();
     loadfile(paddata);
   });
   reader.readAsDataURL(file);
@@ -65,7 +25,8 @@ function loadfile(paddata){
   let a=new Audio(paddata.dataurl);
   a.addEventListener('loadeddata',function(e){
     let key=paddata.key;
-    durations.set(key,e.target.duration);
+    paddata.duration.duration=e.target.duration;
+    paddata.serialize();
     data.set(key,paddata);
     let pad=pads.get(key);
     pad.filename.innerHTML=paddata.name;
