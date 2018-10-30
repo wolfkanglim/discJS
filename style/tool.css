@@ -1,9 +1,8 @@
-#toolarea{ /*https://stackoverflow.com/questions/14123999/center-a-div-horizontally-and-vertically*/
+.toolarea{ /*https://stackoverflow.com/questions/14123999/center-a-div-horizontally-and-vertically*/
   width:30em;
   height:10em;
   border-radius: 2em;
   border:.1em darkred solid;
-  background-color:white;
   position:absolute; /*it can be fixed too*/
   left:0;
   right:0;
@@ -23,7 +22,7 @@
   margin:1em 0;
   background-color:black;
 }
-#toollabel{
+.label{
   margin-top:1em;
   text-decoration:underline;
 }

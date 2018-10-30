@@ -1,0 +1,44 @@
+#grouparea span.groupselect{
+  width:2em;
+  height:2em;
+  margin:.25em .5em;
+  display:inline-block;
+  cursor:pointer;
+  border:.1em dotted black;
+}
+.group0{background-color:darkgreen!important;}
+.pad.group0{border-color:darkgreen!important;}
+.pad.group0.active{background-color:darkgreen!important;}
+.group1{background-color:yellow;}
+.pad.group1{border-color:yellow!important;}
+.pad.group1.active{background-color:yellow!important;}
+.group2{background-color:orange;}
+.pad.group2{border-color:orange!important;}
+.pad.group2.active{background-color:orange!important;}
+.group3{background-color:red;}
+.pad.group3{border-color:red!important;}
+.pad.group3.active{background-color:red!important;}
+.group4{background-color:magenta;}
+.pad.group4{border-color:magenta!important;}
+.pad.group4.active{background-color:magenta!important;}
+.group5{background-color:purple;}
+.pad.group5{border-color:purple!important;}
+.pad.group5.active{background-color:purple!important;}
+.group6{background-color:blue;}
+.pad.group6{border-color:blue!important;}
+.pad.group6.active{background-color:blue!important;}
+.group7{background-color:cyan;}
+.pad.group7{border-color:cyan!important;}
+.pad.group7.active{background-color:cyan!important;}
+.group8{background-color:darkgrey;}
+.pad.group8{border-color:darkgrey!important;}
+.pad.group8.active{background-color:darkgrey!important;}
+.group9{background-color:brown;}
+.pad.group9{border-color:brown!important;}
+.pad.group9.active{background-color:brown!important;}
+.group10{background-color:tan;}
+.pad.group10{border-color:tan!important;}
+.pad.group10.active{background-color:tan!important;}
+.group11{background-color:white;}
+.pad.group11{border-color:white!important;}
+.pad.group11.active{background-color:white!important;}

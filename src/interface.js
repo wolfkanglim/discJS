@@ -11,11 +11,17 @@ function selectfile(event,paddata=false){
   let pad=event.target;
   while(!pad.classList.contains('pad')) pad=pad.parentNode;
   let file=input.files[0];
-  if(!file) return;
+  if(!file) {
+    console.log('no');
+    return;
+  }
   let reader=new FileReader();
   reader.addEventListener("load", function (){
     let name=file.name.substring(0,file.name.indexOf('.'));
     let paddata=new PadData(pad.key,name,reader.result);
+    let old=data.get(pad.key);
+    if(old) paddata.group=old.group;
+    pad.classList.add('group'+paddata.group);
     loadfile(paddata);
   });
   reader.readAsDataURL(file);
@@ -41,12 +47,18 @@ function activate(e,force=undefined){
     if(pad.tagName=='LABEL') return;
     pad=pad.parentNode;
   }
-  if(!data.get(pad.key)) return;
+  let paddata=data.get(pad.key);
+  if(!paddata) return;
   let active=force===undefined?!pad.active:force;
-  pad.active=active;
-  if(active) pad.classList.add('active'); 
+  if(active) {
+    pad.classList.add('active'); 
+    if(paddata.group!=0) for(let p of data.values())
+      if(p!=paddata&&p.active&&p.group==paddata.group)
+        activate(pads.get(p.key),false);
+  }
   else pad.classList.remove('active');
-  data.get(pad.key).setactive(active);
+  pad.active=active;
+  paddata.setactive(active);
 }
 
 function presskey(e){

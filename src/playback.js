@@ -1,4 +1,4 @@
-const CONTEXT = new AudioContext();
+const CONTEXT=new AudioContext();
 
 var audio=new Map();
 var playing=false;
@@ -53,7 +53,6 @@ function tick(e=false){//runs each time shortest loop is over
 }
 
 function startrecording(){
-  //console.log(CONTEXT.destination);
   recordingstream=CONTEXT.createMediaStreamDestination();
   recorder=new MediaRecorder(recordingstream.stream);
   recorder.start();
@@ -61,7 +60,6 @@ function startrecording(){
 
 function stoprecording(){
   recorder.addEventListener('dataavailable',function(e){
-    //console.log(e.data);
     document.querySelector('#recording').src=URL.createObjectURL(e.data);
     recorder=false;
     recordingstream=false;

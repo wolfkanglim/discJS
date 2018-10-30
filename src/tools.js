@@ -2,7 +2,7 @@ const ESC=27;
 const ENTER=13;
 
 var callback=false;
-var paddata=false;
+var targetpad=false;
 
 function opentool(value,label,min,max,step,e,onchange){
   if(callback) return;
@@ -27,8 +27,8 @@ function opentool(value,label,min,max,step,e,onchange){
 function updatetooldata(e){
   let pad=e.target;
   while(!pad.classList.contains('pad')) pad=pad.parentNode;
-  paddata=data.get(pad.key);
-  return paddata;
+  targetpad=data.get(pad.key);
+  return targetpad;
 }
 
 function updatetoolvalue(e){
@@ -40,7 +40,7 @@ function closetool(e){
   if(!callback) return;
   document.querySelector('#toolarea').style.display='none';
   document.querySelector('#toolinput').removeEventListener('change',callback);
-  paddata=false;
+  targetpad=false;
   callback=false;
 }
 
@@ -51,25 +51,25 @@ function resettool(e){
 }
 
 function changevolume(e){
-  paddata.setvolume(document.querySelector('#toolinput').value);
-  let a=audio.get(paddata.key);
-  if(a) a.volume=paddata.volume;
+  targetpad.setvolume(document.querySelector('#toolinput').value);
+  let a=audio.get(targetpad.key);
+  if(a) a.volume=targetpad.volume;
 }
 
 function openvolume(e){
   if(!updatetooldata(e)) return;
-  opentool(paddata.volume,'Select volume',0,1,.01,e,changevolume);
+  opentool(targetpad.volume,'Select volume',0,1,.01,e,changevolume);
 }
 
 function changespeed(e){
-  paddata.setspeed(document.querySelector('#toolinput').value);
-  let a=audio.get(paddata.key);
-  if(a) a.speed=paddata.speed;
+  targetpad.setspeed(document.querySelector('#toolinput').value);
+  let a=audio.get(targetpad.key);
+  if(a) a.speed=targetpad.speed;
 }
 
 function openspeed(e){
   if(!updatetooldata(e)) return;
-  opentool(paddata.speed,'Select playback speed',0.25,5,.005,e,changespeed);
+  opentool(targetpad.speed,'Select playback speed',0.25,5,.005,e,changespeed);
 }
 
 document.addEventListener('keypress',function(e){

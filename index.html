@@ -5,28 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style/discjs.css">
     <link rel="stylesheet" type="text/css" href="style/tool.css">
+    <link rel="stylesheet" type="text/css" href="style/group.css">
      <script src="src/data.js"></script> 
      <script src="src/build.js"></script> 
      <script src="src/interface.js"></script> 
      <script src="src/playback.js"></script> 
      <script src="src/tools.js"></script> 
+     <script src="src/group.js"></script> 
   </head>
   <body onload='build();'>
     <div id='launchpad'></div>
     <div id='controls'>
       <a onclick='play();' id='play' title='Play/pause'>▶</a>
+      <audio id='recording' controls controlsList="download"></audio>
       <a onclick='reset();' title='Reset pads'>↶</a>
     </div>
-    <div id='toolarea'>
-      <div id='toollabel'></div>
+    <div id='toolarea' class='toolarea'>
+      <div id='toollabel' class='label'></div>
       <div class='hint'>(press left and right arrow to make micro-adjustments)</div>
       <div id='toolvalue'></div>
       <div><input type='range' id='toolinput' onchange='updatetoolvalue(this);'></div>
-      <div id='toolactions'>
+      <div class='toolactions'>
         <button onclick='resettool(this);'>Reset</button>
         <button onclick='closetool(this);'>Close</button>
       </div>
     </div>
-    <audio id='recording' controls='true'></audio>
+    <div id='grouparea' class='toolarea'>
+      <div class='label'>Select a group color</div>
+      <span class='groupselect group1' onclick='setgroup(1);'></span>
+      <span class='groupselect group2' onclick='setgroup(2);'></span>
+      <span class='groupselect group3' onclick='setgroup(3);'></span>
+      <span class='groupselect group4' onclick='setgroup(4);'></span>
+      <span class='groupselect group5' onclick='setgroup(5);'></span>
+      <span class='groupselect group6' onclick='setgroup(6);'></span>
+      <span class='groupselect group7' onclick='setgroup(7);'></span>
+      <span class='groupselect group8' onclick='setgroup(8);'></span>
+      <span class='groupselect group9' onclick='setgroup(9);'></span>
+      <span class='groupselect group10' onclick='setgroup(10);'></span>
+      <span class='groupselect group11' onclick='setgroup(11);'></span>
+      <div class='toolactions'>
+        <button onclick='setgroup(0);'>Clear group</button>
+      </div>
+    </div>
   </body>
 </html>
