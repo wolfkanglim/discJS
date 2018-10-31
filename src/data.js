@@ -63,7 +63,6 @@ class PadData{
     dict['speed']=this.speed;
     dict['duration']=this.duration;
     dict['group']=this.group;
-    console.log(dict);
     return dict;
   }
   

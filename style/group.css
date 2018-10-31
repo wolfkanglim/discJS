@@ -6,7 +6,7 @@
   cursor:pointer;
   border:.1em dotted black;
 }
-.group0{background-color:darkgreen!important;}
+.group0{background-color:darkgreen;}
 .pad.group0{border-color:darkgreen!important;}
 .pad.group0.active{background-color:darkgreen!important;}
 .group1{background-color:yellow;}

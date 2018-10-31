@@ -14,6 +14,8 @@ Open [this link](https://tukkek.github.io/discJS/) or a local copy of the HTML f
 
 The spacebar starts and stops play. Holding shift will play a loop immediately instead of scheduling it.
 
+To reorganize existing pads in your layout, you can drag-and-drop them to another location.
+
 You can set a color group for each pad. The way this works is that the same pad group is mutually exclusive. For example: if you have 6 drum loops, each one in a pad, all colored to be in the same group, then every time you activate a drum pad, all others will be immediately deactivated - making it an useful feature for mapping pads containing the same instrument, where only one should play at any given time.
 
 The package comes with a few sample samples (🙃) that are basic but should be enough to get a feel for discJS. Note that to access these files you need to download discJS locally as a ZIP file - everything else works fine running from the web.

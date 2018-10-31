@@ -58,10 +58,12 @@ function activate(e,force=undefined){
     if(paddata.group!=0) for(let p of data.values())
       if(p!=paddata&&p.active&&p.group==paddata.group)
         activate(pads.get(p.key),false);
+  } else {
+    pad.classList.remove('active');
   }
-  else pad.classList.remove('active');
   pad.active=active;
   paddata.setactive(active);
+    console.log(pad.classList);
 }
 
 function presskey(e){

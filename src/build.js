@@ -10,6 +10,7 @@ function makepad(key,parent){
   pads.set(key,pad);
   pad.id='pad'+key;
   pad.className='pad';
+  configuredrag(pad);
   pad.key=key;
   pad.keylabel=document.createElement('div');
   pad.keylabel.innerHTML=key.toUpperCase();
