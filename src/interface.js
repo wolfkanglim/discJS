@@ -1,20 +1,21 @@
 var pads=new Map();
 var data=new Map();
+var targetpad=false;
 
-function selectfile(event,paddata=false){
-  if(paddata){
-    loadfile(paddata);
-    return;
-  }
-  let input=event.target;
+function updatetargetpad(e){
+  let pad=e.target;
+  while(!pad.classList.contains('pad')) pad=pad.parentNode;
+  targetpad=data.get(pad.key);
+  return targetpad;
+}
+
+function selectfile(e){
+  let input=e.target;
   input.blur();
-  let pad=event.target;
+  let pad=e.target;
   while(!pad.classList.contains('pad')) pad=pad.parentNode;
   let file=input.files[0];
-  if(!file) {
-    console.log('no');
-    return;
-  }
+  if(!file) return;
   let reader=new FileReader();
   reader.addEventListener("load", function (){
     let name=file.name.substring(0,file.name.indexOf('.'));
@@ -23,6 +24,7 @@ function selectfile(event,paddata=false){
     if(old) paddata.group=old.group;
     pad.classList.add('group'+paddata.group);
     loadfile(paddata);
+    input.value='';//ensures 'onchange/oninput' always triggers
   });
   reader.readAsDataURL(file);
 }
@@ -37,6 +39,7 @@ function loadfile(paddata){
     let pad=pads.get(key);
     pad.filename.innerHTML=paddata.name;
     if(paddata.active) activate(pad,true);
+    pad.classList.add('group'+paddata.group);
   });
   a.load();
 }
@@ -76,10 +79,47 @@ function presskey(e){
   else activate(pad);
 }
 
-function reset(){
-  if(!window.confirm('Are you sure you want to reset your pad layout?')) return;
-  localStorage.clear();
-  location.reload();
+function resetpad(e,paddata=false){
+  if(e){
+    e.stopPropagation();
+    let input=e.target;
+    input.blur();
+    if(!confirm('Are you sure you want to reset this pad?')) return;
+    paddata=updatetargetpad(e);
+  }
+  if(!paddata) return;
+  let pad=pads.get(paddata.key);
+  if(paddata.active) activate(pad,false);
+  pad.filename.innerHTML='';
+  setgroup(false,paddata);
+  PadData.remove(paddata.key);
+  data.delete(paddata.key);
+}
+
+function resetlayout(confirm=true){
+  if(confirm&&!window.confirm('Are you sure you want to reset your pad layout?')) return;
+  for(let paddata of data.values()) resetpad(false,paddata);
+}
+
+function exportlayout(anchor){
+  let serialized=[];
+  for(let paddata of data.values()){
+    serialized.push(paddata.todict());
+  }
+  if(serialized.length==0) return;
+  let blob=new Blob([JSON.stringify(serialized)],{type:"application/json"});
+  anchor.href=URL.createObjectURL(blob);
+}
+
+function importlayout(input){
+  let file=input.files[0];
+  if(!file) return;
+  let reader=new FileReader();
+  reader.addEventListener("load", function (){
+    input.value='';//ensures 'onchange/oninput' always triggers
+    for(let dict of JSON.parse(reader.result)) loadfile(PadData.fromdict(dict));
+  });
+  reader.readAsText(file);
 }
 
 window.addEventListener('keypress',presskey);

@@ -17,9 +17,13 @@
     <div id='launchpad'></div>
     <div id='controls'>
       <a onclick='play();' id='play' title='Play/pause'>▶</a>
+      <a id='savelink' title='Save performance' download>💿</a>
       <audio id='recording' controls controlsList="download"></audio>
-      <a id='savelink' title='Save performance'>🖪</a>
-      <a onclick='reset();' title='Reset pads'>↶</a>
+      <a onclick='exportlayout(this);' title='Export layout' download>🖪</a>
+      <label title='Import layout'>↶
+        <input onchange='importlayout(this);' type='file'></input>
+      </label>
+      <a onclick='resetlayout();' title='Reset layout'>🗘</a>
     </div>
     <div id='toolarea' class='toolarea'>
       <div id='toollabel' class='label'></div>

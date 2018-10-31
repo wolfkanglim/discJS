@@ -18,10 +18,13 @@ You can set a color group for each pad. The way this works is that the same pad 
 
 The package comes with a few sample samples (🙃) that are basic but should be enough to get a feel for discJS. Note that to access these files you need to download discJS locally as a ZIP file - everything else works fine running from the web.
 
+Your performances are automatically recorded - you can replay them with the built-in player or save them by using the save file.
+
+Since layouts can become a work in and of themselves depending on their complexity, you can save them to an external file and restore later on as needed. discJS will automatically remember your actions as well  - but this is limited by a browser's storage policies, so to be safe export your work every so often.
+
 # Known issues
 
 * Currently based on ABNT2 keyboard (trivial to edit in source code)
-* Due to how browser storage works, discJS can only remember a few MBs of data - if you go over, projects will not be remembered for the next access (everything else works fine, move to IndexedDB would fix this)
 
 # Wishlist
 

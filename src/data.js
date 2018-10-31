@@ -47,6 +47,31 @@ class PadData{
       console.warn(e);
     }
   }
+  
+  static remove(key){
+    for(let property of ['name','dataurl','active','volume','speed','duration','group'])
+      localStorage.removeItem(key+property);
+  }
+  
+  todict(){
+    let dict={};
+    dict['key']=this.key;
+    dict['name']=this.name;
+    dict['dataurl']=this.dataurl;
+    dict['active']=this.active;
+    dict['volume']=this.volume;
+    dict['speed']=this.speed;
+    dict['duration']=this.duration;
+    dict['group']=this.group;
+    console.log(dict);
+    return dict;
+  }
+  
+  static fromdict(dict){
+    return new PadData(
+      dict['key'],dict['name'],dict['dataurl'],dict['active'],dict['volume'],dict['speed'],
+      dict['duration'],dict['group']);
+  }
 
   static deserialize(key){
     let name=localStorage.getItem(key+'name');
@@ -57,7 +82,6 @@ class PadData{
     let speed=Number(localStorage.getItem(key+'speed'));
     let duration=Number(localStorage.getItem(key+'duration'));
     let group=Number(localStorage.getItem(key+'group'));
-    //group=0; //TODO used to import old data, remove
     return new PadData(key,name,dataurl,active,volume,speed,duration,group);
   }
 }

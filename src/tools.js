@@ -2,7 +2,6 @@ const ESC=27;
 const ENTER=13;
 
 var callback=false;
-var targetpad=false;
 
 function opentool(value,label,min,max,step,e,onchange){
   if(callback) return;
@@ -22,13 +21,6 @@ function opentool(value,label,min,max,step,e,onchange){
   updatetoolvalue(e);
   input.addEventListener('change',callback);
   input.focus();
-}
-
-function updatetooldata(e){
-  let pad=e.target;
-  while(!pad.classList.contains('pad')) pad=pad.parentNode;
-  targetpad=data.get(pad.key);
-  return targetpad;
 }
 
 function updatetoolvalue(e){
@@ -57,7 +49,7 @@ function changevolume(e){
 }
 
 function openvolume(e){
-  if(!updatetooldata(e)) return;
+  if(!updatetargetpad(e)) return;
   opentool(targetpad.volume,'Select volume',0,1,.01,e,changevolume);
 }
 
@@ -68,7 +60,7 @@ function changespeed(e){
 }
 
 function openspeed(e){
-  if(!updatetooldata(e)) return;
+  if(!updatetargetpad(e)) return;
   opentool(targetpad.speed,'Select playback speed',0.25,5,.005,e,changespeed);
 }
 

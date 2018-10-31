@@ -1,16 +1,16 @@
 #launchpad div.pad{
-  width:8em;
-  height:8em;
-  border:.3em solid black;
+  width:6em;
+  height:6em;
+  border:.25em solid black;
+  border-radius:1em;
   overflow:hidden;
-  font-size:small;
   display:inline-block;
   margin:.25em;
   text-align:center;
   font-weight:bold;
   transition:background-color .5s,border-color 2s,opacity 1s;
   background-color:rgba(255,255,255,.5);
-  border-radius:1em;
+  cursor:pointer;
 }
 #launchpad div.pad .padtext{font-size:medium;}
 #launchpad div.pad.pulse{
@@ -18,14 +18,14 @@
   border-color:white;
   opacity:0;
 }
-#launchpad div.pad *{margin-bottom:.5em;opacity:1!important;}
+#launchpad div.pad *{margin-bottom:.5em;}
 #launchpad div.pad input{display:none;}
-#launchpad div.pad div.controlpad>*{
+#launchpad div.pad div.controlpad*{
   margin:.1em;
   font-weight:bolder;
   font-family:fixed;
   cursor:pointer;
-  font-size:1.5em;
+  font-size:1em;
 }
 #launchpad{padding:2em;}
 body{
@@ -34,12 +34,13 @@ body{
   height: 100%;
   margin: 0;
 }
-#controls a{
+#controls>a,#controls>label{
   font-size:5em;
   margin:.5em;
   cursor:pointer;
 }
-#savelink:link{
+#controls input{display:none;}
+a:link{
   color:white;
   text-decoration:none;
 }
