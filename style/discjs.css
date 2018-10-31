@@ -39,3 +39,7 @@ body{
   margin:.5em;
   cursor:pointer;
 }
+#savelink:link{
+  color:white;
+  text-decoration:none;
+}

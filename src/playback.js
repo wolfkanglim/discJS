@@ -1,4 +1,5 @@
 const CONTEXT=new AudioContext();
+const CODECS=['audio/ogg','audio/webm'];
 
 var audio=new Map();
 var playing=false;
@@ -21,7 +22,7 @@ function play(){
   }else{
     playing=true;
     playing=tick();
-    if(!playing) play.innerHTML='▮▮';
+    if(playing) play.innerHTML='▮▮';
   }
 }
 
@@ -53,14 +54,26 @@ function tick(e=false){//runs each time shortest loop is over
 }
 
 function startrecording(){
+  document.querySelector('#savelink').removeAttribute('href');
   recordingstream=CONTEXT.createMediaStreamDestination();
-  recorder=new MediaRecorder(recordingstream.stream);
+  let codec=false;
+  for(c of CODECS) if(MediaRecorder.isTypeSupported(c)) {
+    codec=c;
+    break;
+  }
+  if(!codec) {
+    console.warn("Couldn't find a codec for MediaRecorder! Tried: "+CODECS);
+    return;
+  }
+  recorder=new MediaRecorder(recordingstream.stream,{mimeType:codec});
   recorder.start();
 }
 
 function stoprecording(){
   recorder.addEventListener('dataavailable',function(e){
-    document.querySelector('#recording').src=URL.createObjectURL(e.data);
+    let url=URL.createObjectURL(e.data);
+    document.querySelector('#recording').src=url;
+    document.querySelector('#savelink').href=url;
     recorder=false;
     recordingstream=false;
   });
