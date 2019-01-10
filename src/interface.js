@@ -77,7 +77,7 @@ function presskey(e){
   if(e.shiftKey) key=key.toLowerCase();
   let pad=pads.get(key);
   if(!pad||!data.get(key)) return;
-  if(e.shiftKey) playloop(pad);
+  if(e.shiftKey) playloop(pad,false);
   else activate(pad);
 }
 

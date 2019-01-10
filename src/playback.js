@@ -1,5 +1,6 @@
 const CONTEXT=new AudioContext();
 const CODECS=['audio/ogg','audio/webm'];
+const RECORDING=true;
 
 var audio=new Map();
 var playing=false;
@@ -18,7 +19,7 @@ function play(){
     clearInterval(playing);
     play.innerHTML='▶';
     playing=false;
-    if(recorder) stoprecording();
+    stoprecording();
   }else{
     playing=true;
     playing=tick();
@@ -28,18 +29,18 @@ function play(){
 
 function tick(e=false){//runs each time shortest loop is over
   if(!playing) return false;
-  let active=Array.from(document.querySelectorAll('.pad')).filter(pad=>pad.active);
+  let active=Array.from(pads.values()).filter(pad=>pad.active);
   if(active.length==0) { //reschedule if not playing anything
     setTimeout(tick,100);
     return true;
   }
-  if(e&&active.length>1){ //determine if we're the base, quit otherwise
+  if(e&&active.length>1){
     let duration=e.target.duration/e.target.playbackRate;
     for(let pad of active){
       let a=audio.get(pad.key);
       if(a&&a.ended) continue;
       let paddata=data.get(pad.key);
-      if(duration>paddata.duration/paddata.speed){
+      if(paddata.duration/paddata.speed<duration){
         if(!a||a.ended) tick();
         return false;
       }
@@ -54,6 +55,7 @@ function tick(e=false){//runs each time shortest loop is over
 }
 
 function startrecording(){
+  if(!RECORDING) return;
   document.querySelector('#savelink').removeAttribute('href');
   recordingstream=CONTEXT.createMediaStreamDestination();
   let codec=false;
@@ -70,6 +72,7 @@ function startrecording(){
 }
 
 function stoprecording(){
+  if(!recorder) return;
   recorder.addEventListener('dataavailable',function(e){
     let url=URL.createObjectURL(e.data);
     document.querySelector('#recording').src=url;
@@ -80,7 +83,7 @@ function stoprecording(){
   recorder.stop();
 }
 
-function playloop(pad){ //start a new loop
+function playloop(pad,register=true){
   let current=audio.get(pad.key);
   if(current&&!current.ended) return;
   let paddata=data.get(pad.key);
@@ -92,7 +95,7 @@ function playloop(pad){ //start a new loop
   a.playbackRate=paddata.speed;
   a.play();
   if(playing) a.addEventListener('ended',tick);
-  audio.set(pad.key,a);
+  if(register) audio.set(pad.key,a);
   pad.classList.add('pulse');
   setTimeout(function(){pad.classList.remove('pulse');},250);
 }
