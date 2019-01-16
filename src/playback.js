@@ -27,19 +27,6 @@ function play(){
   }
 }
 
-var lastdate=false;
-
-function logtick(prefix=''){
-  //return;
-  if(!lastdate){
-    lastdate=Date.now();
-    return;
-  }
-  var now=Date.now();
-  console.log(prefix,now-lastdate);
-  lastdate=now;
-}
-
 function tick(ended=false){
   if(!playing) return false;
   let active=Array.from(pads.values()).filter(pad=>pad.active);
@@ -61,7 +48,6 @@ function tick(ended=false){
   }
   if(!recorder) startrecording();
   for(let pad of active) playloop(pad);
-  logtick('loop');
   return true;
 }
 
