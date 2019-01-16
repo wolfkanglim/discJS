@@ -63,7 +63,7 @@ function activate(e,force=undefined){
   }
   pad.active=active;
   paddata.setactive(active);
-    console.log(pad.classList);
+    //console.log(pad.classList);
 }
 
 function presskey(e){

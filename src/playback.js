@@ -27,30 +27,41 @@ function play(){
   }
 }
 
+var lastdate=false;
+
+function logtick(prefix=''){
+  return;
+  if(!lastdate){
+    lastdate=Date.now();
+    return;
+  }
+  var now=Date.now();
+  console.log(prefix,now-lastdate);
+  lastdate=now;
+}
+
 function tick(e=false){//runs each time shortest loop is over
   if(!playing) return false;
   let active=Array.from(pads.values()).filter(pad=>pad.active);
   if(active.length==0) { //reschedule if not playing anything
     setTimeout(tick,100);
+    logtick('silence');
     return true;
   }
   if(e&&active.length>1){
-    let duration=e.target.duration/e.target.playbackRate;
-    for(let pad of active){
-      let a=audio.get(pad.key);
-      if(a&&a.ended) continue;
-      let paddata=data.get(pad.key);
-      if(paddata.duration/paddata.speed<duration){
-        if(!a||a.ended) tick();
-        return false;
-      }
+    var durations=new Array();
+    for(let a of audio.values()) if(a.duration) durations.push(a);
+    var base=durations.sort((a,b)=>a.duration/a.playbackRate-b.duration/b.playbackRate)[0];
+    if(base!=e.target){
+      logtick('wait');
+      return false;
     }
   }
   if(!recorder) startrecording();
-  for(let key of audio.keys()){ //stop deactived midway
+  for(let key of audio.keys()) //stop deactived midway
     if(active.indexOf(pads.get(key))<0) pause(key);
-  }
   for(let pad of active) playloop(pad);
+  logtick('loop');
   return true;
 }
 
@@ -93,6 +104,7 @@ function playloop(pad,register=true){
   if(recordingstream) mediasource.connect(recordingstream);
   a.volume=paddata.volume;
   a.playbackRate=paddata.speed;
+  a.ley=pad.key;
   a.play();
   if(playing) a.addEventListener('ended',tick);
   if(register) audio.set(pad.key,a);
