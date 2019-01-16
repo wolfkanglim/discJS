@@ -30,7 +30,7 @@ function play(){
 var lastdate=false;
 
 function logtick(prefix=''){
-  return;
+  //return;
   if(!lastdate){
     lastdate=Date.now();
     return;
@@ -40,26 +40,26 @@ function logtick(prefix=''){
   lastdate=now;
 }
 
-function tick(e=false){//runs each time shortest loop is over
+function tick(ended=false){
   if(!playing) return false;
   let active=Array.from(pads.values()).filter(pad=>pad.active);
   if(active.length==0) { //reschedule if not playing anything
     setTimeout(tick,100);
-    logtick('silence');
     return true;
   }
-  if(e&&active.length>1){
+  for(let key of audio.keys()) //clear/stop deactived, even midway through a playback
+    if(active.indexOf(pads.get(key))<0) pause(key);
+  if(ended&&audio.size>1){
     var durations=new Array();
     for(let a of audio.values()) if(a.duration) durations.push(a);
+    if(durations.size==0) return false;
     var base=durations.sort((a,b)=>a.duration/a.playbackRate-b.duration/b.playbackRate)[0];
-    if(base!=e.target){
-      logtick('wait');
+    if(base!=ended.target){
+      audio.delete(ended.target.key);
       return false;
     }
   }
   if(!recorder) startrecording();
-  for(let key of audio.keys()) //stop deactived midway
-    if(active.indexOf(pads.get(key))<0) pause(key);
   for(let pad of active) playloop(pad);
   logtick('loop');
   return true;
@@ -104,7 +104,7 @@ function playloop(pad,register=true){
   if(recordingstream) mediasource.connect(recordingstream);
   a.volume=paddata.volume;
   a.playbackRate=paddata.speed;
-  a.ley=pad.key;
+  a.key=pad.key;
   a.play();
   if(playing) a.addEventListener('ended',tick);
   if(register) audio.set(pad.key,a);
