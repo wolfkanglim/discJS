@@ -18,14 +18,20 @@
   border-color:white;
   opacity:0;
 }
-#launchpad div.pad *{margin-bottom:.5em;}
+/*#launchpad div.pad *{margin-bottom:.5em;}*/
 #launchpad div.pad input{display:none;}
-#launchpad div.pad div.controlpad*{
+#launchpad div.pad div.controlpad *{
   margin:.1em;
+  /*margin-bottom:0;
+  padding-bottom:0;*/
   font-weight:bolder;
   font-family:fixed;
   cursor:pointer;
   font-size:1em;
+}
+.controlpad{
+  margin:.1em 0;
+  padding:0;
 }
 #launchpad{padding:2em;}
 body{

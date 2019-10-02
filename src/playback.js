@@ -80,9 +80,21 @@ function stoprecording(){
   recorder.stop();
 }
 
+function overlap(pad,audio){ //allows audio to be longer but start looping early, necessary for echoy loops
+  let paddata=data.get(pad.key)
+  let position=audio.currentTime/audio.duration
+  //console.log(pad.key,position+'%',paddata.overlap)
+  if(!pad.active||paddata.overlap==1) return false
+  //if(!audio.currentTime||!audio.duration) return false
+  if(position<=paddata.overlap) return false
+  //console.log(paddata.overlap);
+  audio.removeEventListener('ended',tick)
+  return true
+}
+
 function playloop(pad,register=true){
   let current=audio.get(pad.key);
-  if(current&&!current.ended) return;
+  if(current&&!current.ended&&!overlap(pad,current)) return;
   let paddata=data.get(pad.key);
   let a=new Audio(paddata.dataurl);
   let mediasource=CONTEXT.createMediaElementSource(a);
@@ -92,8 +104,17 @@ function playloop(pad,register=true){
   a.playbackRate=paddata.speed;
   a.key=pad.key;
   a.play();
-  if(playing) a.addEventListener('ended',tick);
   if(register) audio.set(pad.key,a);
+  if(playing) {
+    a.addEventListener('ended',tick);
+    a.addEventListener('durationchange',()=>{
+      if(paddata.overlap==1){
+        //setTimeout(tick,a.duration*1001)
+      }else{
+        //setTimeout(tick,a.duration*(paddata.overlap+.05)*1000)
+      }
+    })
+  }
   pad.classList.add('pulse');
   setTimeout(function(){pad.classList.remove('pulse');},250);
 }

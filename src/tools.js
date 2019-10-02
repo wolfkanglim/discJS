@@ -64,6 +64,17 @@ function openspeed(e){
   opentool(targetpad.speed,'Select playback speed',0.25,5,.005,e,changespeed);
 }
 
+function changeoverlap(e){
+  targetpad.setoverlap(document.querySelector('#toolinput').value);
+  let a=audio.get(targetpad.key);
+  if(a) a.overlap=targetpad.overlap;
+}
+
+function openoverlap(e){
+  if(!updatetargetpad(e)) return;
+  opentool(targetpad.overlap,'Select overlap point',0,1,.05,e,changeoverlap);
+}
+
 document.addEventListener('keypress',function(e){
   if (e.keyCode==ESC||e.keyCode==ENTER) closetool(e);
 });

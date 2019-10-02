@@ -1,11 +1,12 @@
 class PadData{
-  constructor(key,name,dataurl,active=undefined,volume=1,speed=1,duration=false,group=0){
+  constructor(key,name,dataurl,active=undefined,volume=1,speed=1,overlap=1,duration=false,group=0){
     this.key=key;
     this.name=name;
     this.dataurl=dataurl;
     this.active=active===undefined?!playing:active;
     this.volume=volume;
     this.speed=speed;
+    this.overlap=overlap
     this.duration=duration;
     this.group=group;
   }
@@ -26,6 +27,12 @@ class PadData{
     if(speed==this.speed) return;
     this.speed=speed;
     localStorage.setItem(this.key+'speed',this.speed);
+  }
+  
+  setoverlap(overlap){
+    if(overlap==this.overlap) return;
+    this.overlap=overlap;
+    localStorage.setItem(this.key+'overlap',this.overlap);
   }
   
   setgroup(group){
@@ -61,6 +68,7 @@ class PadData{
     dict['active']=this.active;
     dict['volume']=this.volume;
     dict['speed']=this.speed;
+    dict['overlap']=this.overlap;
     dict['duration']=this.duration;
     dict['group']=this.group;
     return dict;
@@ -68,7 +76,7 @@ class PadData{
   
   static fromdict(dict){
     return new PadData(
-      dict['key'],dict['name'],dict['dataurl'],dict['active'],dict['volume'],dict['speed'],
+      dict['key'],dict['name'],dict['dataurl'],dict['active'],dict['volume'],dict['speed'],dict['overlap'],
       dict['duration'],dict['group']);
   }
 
@@ -79,8 +87,9 @@ class PadData{
     let active=localStorage.getItem(key+'active')=='true';
     let volume=Number(localStorage.getItem(key+'volume'));
     let speed=Number(localStorage.getItem(key+'speed'));
+    let overlap=Number(localStorage.getItem(key+'overlap'));
     let duration=Number(localStorage.getItem(key+'duration'));
     let group=Number(localStorage.getItem(key+'group'));
-    return new PadData(key,name,dataurl,active,volume,speed,duration,group);
+    return new PadData(key,name,dataurl,active,volume,speed,overlap,duration,group);
   }
 }

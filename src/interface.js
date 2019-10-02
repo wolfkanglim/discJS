@@ -74,7 +74,10 @@ function presskey(e){
     return;
   }
   let key=e.key;
-  if(e.shiftKey) key=key.toLowerCase();
+  if(e.shiftKey){
+    if(e.code.indexOf('Digit')>=0) key=e.code.replace('Digit',''); //fix number row with shift
+    key=key.toLowerCase();
+  }
   let pad=pads.get(key);
   if(!pad||!data.get(key)) return;
   if(e.shiftKey) playloop(pad,false);
