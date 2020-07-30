@@ -30,6 +30,7 @@ Since layouts can become a work in and of themselves depending on their complexi
 
 # Wishlist
 
+* Use icon (`discjs.png`)
 * Import and export layout setups
 * Produce a more respectable set of packaged samples
     * Load a full song layout by default, have a "reset" button to start fresh
