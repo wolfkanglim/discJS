@@ -1,7 +1,7 @@
-const CONTEXT=new AudioContext();
 const CODECS=['audio/ogg','audio/webm'];
 const RECORDING=true;
 
+var context=false;
 var audio=new Map();
 var playing=false;
 var recorder=false;
@@ -12,7 +12,14 @@ function pause(key){
   audio.delete(key);
 }
 
+function schedule(){
+  let durations=Array.from(pads.values()).filter(p=>p.active).map(p=>data.get(p.key).duration);
+  console.log(Math.min(...durations),durations)
+  return Math.min(...durations)*1000
+}
+
 function play(){
+  if(!context) context=new AudioContext() //chrome requires it be created from user interaction
   var play=document.querySelector('#play');
   if(playing){
     for(let key of audio.keys()) pause(key);
@@ -22,18 +29,20 @@ function play(){
     stoprecording();
   }else{
     playing=true;
-    playing=tick();
+    tick()
+    //playing=setTimeout(tick,schedule());
     if(playing) play.innerHTML='▮▮';
   }
 }
 
 function tick(ended=false){
+  console.log('tick')
   if(!playing) return false;
-  let active=Array.from(pads.values()).filter(pad=>pad.active);
-  if(active.length==0) { //reschedule if not playing anything
-    setTimeout(tick,100);
+  playing=setTimeout(tick,schedule());
+  /*if(active.length==0) { //reschedule if not playing anything
     return true;
-  }
+  }*/
+  let active=Array.from(pads.values()).filter(pad=>pad.active);
   for(let key of audio.keys()) //clear/stop deactived, even midway through a playback
     if(active.indexOf(pads.get(key))<0) pause(key);
   if(ended&&audio.size>1){
@@ -54,7 +63,7 @@ function tick(ended=false){
 function startrecording(){
   if(!RECORDING) return;
   document.querySelector('#savelink').removeAttribute('href');
-  recordingstream=CONTEXT.createMediaStreamDestination();
+  recordingstream=context.createMediaStreamDestination();
   let codec=false;
   for(c of CODECS) if(MediaRecorder.isTypeSupported(c)) {
     codec=c;
@@ -97,8 +106,8 @@ function playloop(pad,register=true){
   if(current&&!current.ended&&!overlap(pad,current)) return;
   let paddata=data.get(pad.key);
   let a=new Audio(paddata.dataurl);
-  let mediasource=CONTEXT.createMediaElementSource(a);
-  mediasource.connect(CONTEXT.destination);
+  let mediasource=context.createMediaElementSource(a);
+  mediasource.connect(context.destination);
   if(recordingstream) mediasource.connect(recordingstream);
   a.volume=paddata.volume;
   a.playbackRate=paddata.speed;
@@ -106,9 +115,10 @@ function playloop(pad,register=true){
   a.play();
   if(register) audio.set(pad.key,a);
   if(playing) {
-    a.addEventListener('ended',tick);
+    //a.addEventListener('ended',tick);
     a.addEventListener('durationchange',()=>{
       if(paddata.overlap==1){
+        console.log('durationchange',a.duration)
         //setTimeout(tick,a.duration*1001)
       }else{
         //setTimeout(tick,a.duration*(paddata.overlap+.05)*1000)

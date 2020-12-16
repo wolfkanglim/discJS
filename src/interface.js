@@ -33,7 +33,9 @@ function loadfile(paddata){
   let a=new Audio(paddata.dataurl);
   a.addEventListener('loadeddata',function(e){
     let key=paddata.key;
-    paddata.duration=e.target.duration;
+    paddata.duration=e.target.duration
+    console.log('load',paddata.duration)
+    paddata.overlap=.8
     paddata.serialize();
     data.set(key,paddata);
     let pad=pads.get(key);
@@ -63,7 +65,6 @@ function activate(e,force=undefined){
   }
   pad.active=active;
   paddata.setactive(active);
-    //console.log(pad.classList);
 }
 
 function presskey(e){
